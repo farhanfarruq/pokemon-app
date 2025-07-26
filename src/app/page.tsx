@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import PokemonCard from "./components/PokemonCard";
 import PokemonDetailModal from "./components/PokemonDetailModal";
 import { usePokemonList, PokemonListResult } from "./hooks/usePokemonData";
@@ -22,7 +23,7 @@ export default function Home() {
     <>
       {loading && !pokemonList.length && (
         <div className="fixed inset-0 flex flex-col justify-center items-center bg-gradient-to-br from-green-200 to-blue-200 z-[100]">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Pokebola-pokeball-png-0.png" alt="Pokeball" className="w-24 h-24 animate-spin"/>
+            <Image src="https://upload.wikimedia.org/wikipedia/commons/5/51/Pokebola-pokeball-png-0.png" alt="Pokeball" width={96} height={96} className="animate-spin"/>
             <p className="mt-4 text-2xl font-bold text-gray-600">Loading Pokémon...</p>
         </div>
       )}

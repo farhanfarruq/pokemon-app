@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { usePokemonDetail, EvolutionChain as EvolutionChainType } from '../hooks/usePokemonData';
+import { usePokemonDetail, EvolutionChain as EvolutionChainType, EvolutionDetail as EvolutionDetailType } from '../hooks/usePokemonData';
 import { IoArrowBack, IoMale, IoFemale, IoArrowForward } from 'react-icons/io5';
 import TypeIcon from './TypeIcon';
 
@@ -65,7 +65,7 @@ const EvolutionStage: React.FC<{ species: { name: string; url: string; }; }> = (
 };
 
 // Komponen untuk detail cara evolusi (panah dan level/item)
-const EvolutionDetail: React.FC<{ details: any[] | undefined; color: string; }> = ({ details, color }) => {
+const EvolutionDetail: React.FC<{ details: EvolutionDetailType[] | undefined; color: string; }> = ({ details, color }) => {
     if (!details || details.length === 0) return null;
     const detail = details[0];
 
@@ -94,11 +94,11 @@ const EvolutionDetail: React.FC<{ details: any[] | undefined; color: string; }> 
 
 // Komponen untuk render tab evolusi (BARU)
 const EvolutionRenderer: React.FC<{ chain: EvolutionChainType | null; color: string; }> = ({ chain, color }) => {
-    const [evolutionLine, setEvolutionLine] = useState<any[]>([]);
+    const [evolutionLine, setEvolutionLine] = useState<EvolutionChainType[]>([]);
 
     useEffect(() => {
-        const line: any[] = [];
-        let current = chain;
+        const line: EvolutionChainType[] = [];
+        let current: EvolutionChainType | null | undefined = chain;
         while (current) {
             line.push(current);
             current = current.evolves_to?.[0];

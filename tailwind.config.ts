@@ -25,14 +25,21 @@ const config: Config = {
         '4xl': '2rem',
       },
 
-            keyframes: {
+      keyframes: {
         'fade-in': {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
+        // Animasi float ditambahkan di sini
+        'float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8%)' },
+        }
       },
       animation: {
         'fade-in': 'fade-in 0.5s ease-in-out',
+        // Animasi float ditambahkan di sini
+        'float': 'float 3s ease-in-out infinite',
       },
     },
   },

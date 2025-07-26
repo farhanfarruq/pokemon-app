@@ -13,7 +13,8 @@ interface PokemonCardProps {
 
 interface PokemonMiniDetail {
   id: number;
-  sprite: string;
+  // Menggunakan URL sprite yang lebih andal
+  sprite: string; 
   types: { type: { name: string } }[];
 }
 
@@ -27,11 +28,22 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ name, url, onSelect, isSelect
       try {
         const response = await fetch(url);
         const detail = await response.json();
+        
+        // Mengambil ID dari URL untuk membangun URL gambar yang benar
+        const pokemonId = detail.id;
+        const animatedSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${pokemonId}.gif`;
+        const staticSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+
+        // Logika untuk memilih sprite: coba animasi dulu, jika gagal, pakai statis
+        const res = await fetch(animatedSpriteUrl);
+        const finalSprite = res.ok ? animatedSpriteUrl : staticSpriteUrl;
+
         setData({
           id: detail.id,
-          sprite: detail.sprites.front_default,
+          sprite: finalSprite,
           types: detail.types,
         });
+
       } catch (error) {
         console.error("Failed to fetch mini detail:", error);
       } finally {
@@ -52,19 +64,20 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ name, url, onSelect, isSelect
   return (
     <div
       onClick={onSelect}
-      className={`flex items-center p-3 rounded-xl cursor-pointer transition-all duration-300 ${isSelected ? 'bg-poke-light-blue shadow-lg scale-105' : 'bg-white/70 backdrop-blur-sm hover:bg-white'}`}
+      className={`group flex items-center p-3 rounded-xl cursor-pointer transition-all duration-300 ${isSelected ? 'bg-poke-light-blue shadow-lg scale-105' : 'bg-white/70 backdrop-blur-sm hover:bg-white'}`}
     >
-      <div className="w-16 h-16 flex-shrink-0">
-        <Image
-          src={data.sprite}
-          alt={name}
-          width={64}
-          height={64}
-          unoptimized
-        />
+      <div className="w-16 h-16 flex-shrink-0 relative">
+        {data.sprite && (
+          <Image
+            src={data.sprite}
+            alt={name}
+            layout="fill"
+            objectFit="contain"
+            unoptimized // Penting untuk GIF
+          />
+        )}
       </div>
       <div className="flex-grow ml-4">
-        {/* Urutan elemen diubah di sini */}
         <p className="font-bold text-poke-dark-text text-lg capitalize">{name}</p>
         <p className="text-gray-400 text-sm font-semibold">#{String(data.id).padStart(3, '0')}</p>
       </div>

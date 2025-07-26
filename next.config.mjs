@@ -13,6 +13,11 @@ const nextConfig = {
         hostname: "archives.bulbagarden.net",
         pathname: "**",
       },
+      { // Tambahkan blok ini
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        pathname: "**",
+      },
     ],
   },
 };

@@ -57,19 +57,21 @@ export interface AbilityDetail {
     }[];
 }
 
+export interface EvolutionDetail {
+    min_level: number;
+    trigger: { name: string };
+    item: { name: string } | null;
+}
+
 export interface EvolutionChain {
     species: { name: string; url: string };
     evolves_to: EvolutionChain[];
-    evolution_details: {
-        min_level: number;
-        trigger: { name: string };
-        item: { name: string } | null;
-    }[];
+    evolution_details: EvolutionDetail[];
 }
+
 
 // --- Custom Hooks ---
 
-// ***** FIX 1: TAMBAHKAN KEMBALI HOOK INI *****
 export const usePokemonList = () => {
   const [pokemonList, setPokemonList] = useState<PokemonListResult[]>([]);
   const [loading, setLoading] = useState(true);
@@ -132,9 +134,13 @@ export const usePokemonDetail = (name: string | null) => {
             const abilityDetails: AbilityDetail[] = await Promise.all(abilityPromises);
             setAbilities(abilityDetails);
 
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Failed to fetch details:", err);
-            setError(err.message);
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred");
+            }
         } finally {
             setLoading(false);
         }

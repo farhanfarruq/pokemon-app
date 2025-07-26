@@ -4,7 +4,6 @@
 import { useState } from "react";
 import PokemonCard from "./components/PokemonCard";
 import PokemonDetailModal from "./components/PokemonDetailModal";
-// ***** FIX 2: PASTIKAN KEDUA HOOK DI-IMPORT & TAMBAHKAN TIPE DATA *****
 import { usePokemonList, PokemonListResult } from "./hooks/usePokemonData";
 
 export default function Home() {
@@ -28,13 +27,15 @@ export default function Home() {
         </div>
       )}
 
-      <main className="max-w-md mx-auto bg-gray-50 min-h-screen">
-        <div className="p-4 bg-white/80 backdrop-blur-md sticky top-0 z-10 border-b">
-          <h1 className="text-center text-2xl font-bold text-poke-dark-text">Pokemon</h1>
+      <main className="max-w-md mx-auto bg-gray-50 min-h-screen relative isolate">
+        {/* Gradasi halus di bagian atas */}
+        <div className="absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-emerald-50 to-transparent -z-10"></div>
+
+        <div className="p-4 bg-transparent sticky top-0 z-10">
+          <h1 className="text-center text-3xl font-bold text-poke-dark-text">Pokemon</h1>
         </div>
 
-        <div className="p-4 space-y-3">
-          {/* Menambahkan tipe data 'PokemonListResult' ke parameter 'pokemon' */}
+        <div className="px-4 pb-4 space-y-3">
           {pokemonList.map((pokemon: PokemonListResult) => (
             <PokemonCard
               key={pokemon.name}

@@ -43,7 +43,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ name, url, onSelect, isSelect
 
   if (loading) {
     return (
-      <div className="w-full h-20 bg-gray-200 rounded-lg animate-pulse"></div>
+      <div className="w-full h-20 bg-gray-200/50 rounded-lg animate-pulse"></div>
     );
   }
 
@@ -52,19 +52,21 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ name, url, onSelect, isSelect
   return (
     <div
       onClick={onSelect}
-      className={`flex items-center p-3 rounded-xl cursor-pointer transition-all duration-200 ${isSelected ? 'bg-poke-light-blue shadow-lg' : 'bg-white hover:bg-gray-50'}`}
+      className={`flex items-center p-3 rounded-xl cursor-pointer transition-all duration-300 ${isSelected ? 'bg-poke-light-blue shadow-lg scale-105' : 'bg-white/70 backdrop-blur-sm hover:bg-white'}`}
     >
-      <Image
-        src={data.sprite}
-        alt={name}
-        width={68}
-        height={68}
-        unoptimized
-        className="flex-shrink-0"
-      />
+      <div className="w-16 h-16 flex-shrink-0">
+        <Image
+          src={data.sprite}
+          alt={name}
+          width={64}
+          height={64}
+          unoptimized
+        />
+      </div>
       <div className="flex-grow ml-4">
-        <p className="text-poke-light-text text-sm">#{String(data.id).padStart(3, '0')}</p>
+        {/* Urutan elemen diubah di sini */}
         <p className="font-bold text-poke-dark-text text-lg capitalize">{name}</p>
+        <p className="text-gray-400 text-sm font-semibold">#{String(data.id).padStart(3, '0')}</p>
       </div>
       <div className="flex gap-2">
         {data.types.map((typeInfo, index) => (
